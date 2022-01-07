@@ -1,0 +1,56 @@
+# in the terminal window of vscode after choosing the appropriate folder (/Users/Erol/Documents/HW11/HW) type:
+ 
+git clone https://github.com/alexeygrigorev/mlbookcamp-code.git
+
+# while being in the "/Users/Erol/Documents/HW11/HW" folder type in the terminal: 
+
+cd mlbookcamp-code/course-zoomcamp/05-deployment/code
+
+# while being in the "mlbookcamp-code/course-zoomcamp/05-deployment/code" folder type in the terminal:
+
+docker build -t churn-model:v001 .
+
+# then type:
+
+docker run -it --rm -p 9696:9696 churn-model:v001
+
+# then type: 
+
+python predict-test.py
+
+# no need to install "kubectl" and "kind" as they were installed beforehand to practice for the lecture 
+
+# Quesion 1: Version of kind --> type in the terminal window
+
+kind --version
+
+# Creating a cluster --> type in the terminal window
+
+kind create cluster
+
+# Question 2: Verifying that everything works --> type in the terminal window
+
+kubectl get services
+
+# Question 3: Uploading the image to kind --> type in the terminal window
+
+kind load docker-image churn-model:v001
+
+# Question 4: Creating a deployment
+
+# Question 5: Pod name --> type in the terminal window
+
+kubectl apply -f deployment.yaml
+
+
+# Question 6: Creating a service --> type in the terminal window
+
+kubectl apply -f service.yaml
+
+
+# Testing the service locally --> type in the terminal window
+
+kubectl port-forward service/churn 9696:80
+
+python predict-test.py
+
